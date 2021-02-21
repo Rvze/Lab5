@@ -1,4 +1,4 @@
-package Storage;
+package MainCommand;
 
 public enum TicketType {
     USUAL,

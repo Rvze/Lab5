@@ -1,4 +1,4 @@
-package Storage;
+package MainCommand;
 
 public class Main {
 }

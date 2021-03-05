@@ -2,14 +2,14 @@ package Commands;
 import MainCommand.Manager;
 
 public class HelpCommand implements Command {
-    private Manager manager;
-    public HelpCommand(Manager manager) {
-        this.manager = manager;
+    private final CollectionManager collectionManager;
+    public HelpCommand(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
 
     @Override
-    public void execute() {
-
+    public void execute(String[] args) {
+        collectionManager.help();
     }
 }

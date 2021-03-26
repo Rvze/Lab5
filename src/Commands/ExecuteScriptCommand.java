@@ -1,16 +1,12 @@
 package Commands;
 
-
-public class HelpCommand implements Command {
+public class ExecuteScriptCommand implements Command {
     private final CollectionManager collectionManager;
-
-    public HelpCommand(CollectionManager collectionManager) {
+    public ExecuteScriptCommand(CollectionManager collectionManager){
         this.collectionManager = collectionManager;
     }
-
-
     @Override
     public void execute(String[] args) {
-        collectionManager.help();
+        collectionManager.execute_script();
     }
 }

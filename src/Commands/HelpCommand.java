@@ -1,16 +1,26 @@
 package Commands;
 
 
-public class HelpCommand implements Command {
-    private final CollectionManager collectionManager;
+import java.util.HashMap;
 
-    public HelpCommand(CollectionManager collectionManager) {
-        this.collectionManager = collectionManager;
+public class HelpCommand extends AbstractCommand {
+    private final HashMap<String, AbstractCommand> commandMap;
+
+    public HelpCommand(HashMap<String, AbstractCommand> commandMap) {
+        super("help"," : вывести справку по доступным командам");
+        this.commandMap = commandMap;
     }
 
 
     @Override
     public void execute(String[] args) {
-        collectionManager.help();
+        for(String x: commandMap.keySet()){
+            println(commandMap.get(x).getName() + commandMap.get(x).getDescription());
+        }
+    }
+
+    @Override
+    public void println(String s) {
+        super.println(s);
     }
 }

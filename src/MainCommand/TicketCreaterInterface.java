@@ -3,12 +3,42 @@ package MainCommand;
 import Exceptions.InvalidFieldException;
 
 public interface TicketCreaterInterface {
-    public void setName() throws InvalidFieldException;
-    public void setCoordinateX(long x) throws InvalidFieldException;
-    public void setCoordinateY(Integer y) throws InvalidFieldException;
-    public void setPrice() throws InvalidFieldException;
-    public void setDiscount() throws InvalidFieldException;
-    public boolean refundable();
-    public void setType();
-    public void setEvent();
+    void setName(String name) throws InvalidFieldException;
+
+    void setCoordinateX(long x) throws InvalidFieldException;
+
+    void setCoordinateY(Integer y) throws InvalidFieldException;
+
+    void setPrice() throws InvalidFieldException;
+
+    void setDiscount() throws InvalidFieldException;
+
+    boolean refundable();
+
+    void setType();
+
+    void setEvent();
+
+    void askName();
+
+    Long askTicketId();
+
+    void askCoordinateX();
+
+    void askCoordinateY();
+
+    Ticket askTicket();
+
+    void setEventId();
+
+    void setEventName();
+
+    void setEventDescription();
+
+    void setEventType();
+
+    void print(String s);
+    }
+
+
 }

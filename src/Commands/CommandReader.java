@@ -1,55 +1,110 @@
 package Commands;
 
+import Files.FileWorker;
 import MainCommand.Ticket;
 import MainCommand.TicketCreater;
+
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import java.util.HashMap;
 
-public class CommandReader {
+public class CommandReader implements CommandReaderInterface {
     private HashMap<String, Command> commandHashMap;
-    private CollectionManager collectionManager;
+    private CollectionManager manager;
     private Scanner scanner;
-    private static boolean isExit = false;
-    public CommandReader(CollectionManager collectionManager){
-        collectionManager = new CollectionManager();
+    private final boolean isRunning = true;
 
-        TicketCreater ticketCreater = new TicketCreater(collectionManager, scanner);
-        this.collectionManager = new CollectionManager();
+    private final FileWorker csvFileWorkerInterface;
+    private static boolean isExit = false;
+
+    public CommandReader(CollectionManager collectionManager, FileWorker fileWorker, CommandReaderInterface commandReader) {
+        manager = collectionManager;
+        csvFileWorkerInterface = fileWorker;
         commandHashMap = new HashMap<>();
-        commandHashMap.put("help", new HelpCommand(collectionManager));
-        commandHashMap.put("info", new InfoCommand(collectionManager));
-        commandHashMap.put("show", new ShowCommand(collectionManager));
-        commandHashMap.put("add", new AddCommand(collectionManager, ticketCreater));
-        commandHashMap.put("update id", new UpdateIdCommand(collectionManager));
-        commandHashMap.put("remove_by_id", new RemoveByIdCommand(collectionManager));
-        commandHashMap.put("clear", new ClearCommand(collectionManager));
-        commandHashMap.put("save", new SaveCommand(collectionManager));
-        commandHashMap.put("execute_script", new ExecuteScriptCommand(collectionManager));
-        commandHashMap.put("exit", new ExitCommand(collectionManager));
-        commandHashMap.put("add_if_max", new Add_If_MaxCommand(collectionManager));
-        commandHashMap.put("remove_lower", new Remove_LowerCommand(collectionManager));
-        commandHashMap.put("history", new HistoryCommand(collectionManager));
-        commandHashMap.put("count_less_than_type", new Count_Less_Than_TypeCommand(collectionManager));
-        commandHashMap.put("print_field_descending", new Print_Field_Descending_PriceCommand(collectionManager));
     }
-    public void interactiveMode(){
+
+
 // scanner
 // Читаешь ввод пользователя
 // Кидаешь его в readCommand
 
+
+
+    public final void println(String s) {
+        System.out.println(s);
     }
-    public void readCommand(String str){
-        String[] input = str.trim().toLowerCase().split(" ");
-        if(commandHashMap.containsKey(input[0].trim())){
-            commandHashMap.get(str).execute(input);
+
+    @Override
+    /**
+     * Метод, обеспечивающий чтение команд в строковом формате
+     */
+    public void readCommand() {
+        Scanner commandReader = new Scanner(System.in);
+        String userCommand = "";
+        try {
+            userCommand = commandReader.nextLine();
+        } catch (NoSuchElementException e) {
+            println("You can't input this\nThe work of App will be stopped");
+        }
+
+        String[] input = userCommand.trim().split(" ", 2);
+        if (commandHashMap.containsKey(input[0])) {
+            commandHashMap.get(input[0]).execute(input);
+        } else if (input[0].equals("")) {
+            println("Данной команды не существует, наберите 'help' для справки");
         }
     }
+
+    @Override
+    public void start() {
+        try {
+            Scanner fileInput = new Scanner(System.in);
+            println("Do you wanna start app work with csv file input?\n|yes/no|");
+
+            String input = fileInput.nextLine();
+            while (!input.equals("yes") && !input.equals("no")) {
+                println("yes/no");
+                input = fileInput.nextLine();
+            }
+            if (input.matches("yes")) {
+                csvFileWorkerInterface.loadInput(manager.getTickets());
+            }
+            println("The app is ready to work");
+        } catch (NoSuchElementException e) {
+            println("^D is forbidden input");
+        }
+    }
+
+    @Override
+    public void addCommand(String key, AbstractCommand command) {
+        commandHashMap.put(key, command);
+    }
+
 
     /**
      * Метод, устонавливающий флаг выхода
      */
-    public static void quit(){
+    public static void quit() {
         isExit = true;
+    }
+
+    public HashMap<String, Command> getCommandHashMap() {
+        return commandHashMap;
+    }
+
+    /**
+     * Получить Collection Manager
+     *
+     * @return
+     */
+    @Override
+    public CollectionManager getManager() {
+        return manager;
+    }
+
+    @Override
+    public HashMap<String, AbstractCommand> getCommandMap() {
+        return null;
     }
 }

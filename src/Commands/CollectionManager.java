@@ -2,6 +2,7 @@ package Commands;
 
 import MainCommand.Ticket;
 import MainCommand.TicketCreater;
+import MainCommand.TicketCreaterInterface;
 
 
 import java.io.IOException;
@@ -49,9 +50,12 @@ public class CollectionManager {
         }
 
     }
-    public void add(TicketCreater ticketCreater){
+    public void add(TicketCreaterInterface ticketCreater){
 
 
+    }
+    public HashSet<Ticket> getTickets(){
+        return ticket;
     }
     public void updateId(){
 

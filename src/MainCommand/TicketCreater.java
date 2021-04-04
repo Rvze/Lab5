@@ -2,12 +2,16 @@ package MainCommand;
 
 import Commands.CollectionManager;
 import Exceptions.InvalidFieldException;
+import subsidiary.InputChecker;
 
+import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class TicketCreater implements TicketCreaterInterface {
+    private String line;
     private ZonedDateTime zonedDateTime = null;
     private final CollectionManager collectionManager;
     private Scanner scanner;
@@ -21,14 +25,13 @@ public class TicketCreater implements TicketCreaterInterface {
     private TicketType type; //Поле не может быть null
     private Event event; //Поле может быть null
 
-    public TicketCreater(CollectionManager collectionManager, Scanner scanner) {
+    public TicketCreater(Scanner scanner, CollectionManager collectionManager) {
+        scanner = scanner;
         this.collectionManager = collectionManager;
-        this.scanner = scanner;
-        this.refundable = refundable();
     }
 
     @Override
-    public void setName() throws InvalidFieldException {
+    public void setName(String name) throws InvalidFieldException {
         if (name == null || name.equals(" ")) {
             throw new InvalidFieldException("Invalid value for Ticket name.");
         } else
@@ -79,5 +82,84 @@ public class TicketCreater implements TicketCreaterInterface {
     public void setEvent() {
 
     }
+
+    @Override
+    public void askName() {
+        print("Enter Ticket name: ");
+        try{
+            setName(lowerInput());
+        }catch(InvalidFieldException e){
+            print("Ticket name can't be null!");
+        }
+    }
+
+    @Override
+    public Long askTicketId() {
+        String str;
+        print("Enter the Ticket id: ");
+        str = scanner.nextLine();
+        if(InputChecker.checkLong(str.trim())){
+            return Long.parseLong(str);
+        }else
+            print("Ticket id can't be null, please try again");
+        return null;
+    }
+
+    @Override
+    public void askCoordinateX() {
+        print("Enter Ticket Coordinate X:");
+        try{
+            setCoordinateX(Long.parseLong(lowerInput()));
+        }catch(InvalidFieldException | NumberFormatException e){
+            print("Ticket Coordinates X should be long");
+        }
+    }
+
+    @Override
+    public void askCoordinateY() {
+        print("Enter Ticket Coordinates Y: ");
+        try{
+            setCoordinateY(Integer.parseInt(lowerInput()));
+        }catch(InvalidFieldException | NumberFormatException e){
+            print("Ticket Coordinates Y should be int");
+        }
+    }
+
+    @Override
+    public Ticket askTicket() {
+
+    }
+
+    @Override
+    public void setEventId() {
+
+    }
+
+    @Override
+    public void setEventName() {
+
+    }
+
+    @Override
+    public void setEventDescription() {
+
+    }
+
+    @Override
+    public void setEventType() {
+
+    }
+
+    @Override
+    public void print(String s) {
+        System.out.println(s);
+
+    }
+
+    public String lowerInput(){
+        line = scanner.nextLine().toLowerCase().trim();
+        return line;
+    }
+
 }
 

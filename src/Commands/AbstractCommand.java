@@ -44,4 +44,14 @@ public class AbstractCommand implements Command {
     public void execute(String[] args) {
 
     }
+
+    /**
+     * Выводит в поток вывода справку о команде
+     */
+    public void getHelp(){
+
+    }
+    public void println(String s){
+        System.out.println(s);
+    }
 }

@@ -1,14 +1,11 @@
 package Commands;
-
-import MainCommand.Ticket;
-import Commands.CollectionManager;
-import MainCommand.TicketCreater;
+import MainCommand.TicketCreaterInterface;
 
 public class AddCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
-    private final TicketCreater ticketCreater;
+    private final TicketCreaterInterface ticketCreater;
 
-    public AddCommand(CollectionManager collectionManager, TicketCreater ticketCreater) {
+    public AddCommand(CollectionManager collectionManager, TicketCreaterInterface ticketCreater) {
         super("add", " {element} : добавить новый элемент в коллекцию");
         this.collectionManager = collectionManager;
         this.ticketCreater = ticketCreater;
@@ -17,5 +14,10 @@ public class AddCommand extends AbstractCommand {
     @Override
     public void execute(String[] args) {
         collectionManager.add(ticketCreater);
+    }
+
+    @Override
+    public void getHelp() {
+
     }
 }

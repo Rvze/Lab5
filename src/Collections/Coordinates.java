@@ -1,4 +1,4 @@
-package MainCommand;
+package Collections;
 
 public class Coordinates {
     private long x;
@@ -8,7 +8,8 @@ public class Coordinates {
         this.x = x;
         this.y = y;
     }
-    public Coordinates(){
+
+    public Coordinates() {
 
     }
 

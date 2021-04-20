@@ -1,12 +1,19 @@
 package Commands;
 
-public class HistoryCommand implements Command {
-    private final CollectionManager collectionManager;
-    public HistoryCommand(CollectionManager collectionManager){
-        this.collectionManager = collectionManager;
+
+import subsidiary.LimitedQueue;
+
+public class HistoryCommand extends AbstractCommand {
+
+    public HistoryCommand(){
+        super("history", " вывести последние 11 команд (без их аргументов)");
     }
     @Override
     public void execute(String[] args) {
-        collectionManager.history();
+        LimitedQueue<String> history = CommandReaderInterface.getHistory();
+        println("The last 11 commands: ");
+        for(Object h: history){
+            println(((String)h).trim());
+        }
     }
 }

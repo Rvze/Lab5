@@ -1,6 +1,6 @@
 package Commands;
 
-import MainCommand.Manager;
+import Collections.CollectionManager;
 
 public class InfoCommand extends AbstractCommand{
     private final CollectionManager collectionManager;

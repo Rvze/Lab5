@@ -1,8 +1,9 @@
 package Commands;
 
-import MainCommand.Ticket;
-import MainCommand.TicketCreater;
-import MainCommand.TicketCreaterInterface;
+
+
+import Collections.CollectionManager;
+import Collections.TicketCreaterInterface;
 import subsidiary.InputChecker;
 
 public class UpdateIdCommand extends AbstractCommand {
@@ -18,10 +19,16 @@ public class UpdateIdCommand extends AbstractCommand {
     @Override
     public void execute(String[] args) {
         Long id;
-        if(args.length > 1 && args[1].length() > 0 && InputChecker.checkLong(args[1].trim()){
+        if (args.length > 1 && args[1].length() > 0 && InputChecker.checkLong(args[1].trim())) {
             id = Long.parseLong(args[1].trim());
-        }else{
-            id = TicketCreater.
+        } else {
+            id = ticketCreater.askTicketId();
+        }
+        if (id != null && collectionManager.checkId(id)) {
+            collectionManager.update(id, ticketCreater.askTicket());
+        } else {
+            println("This id not found");
         }
     }
+
 }

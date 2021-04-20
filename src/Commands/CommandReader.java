@@ -1,8 +1,7 @@
 package Commands;
 
+import Collections.CollectionManager;
 import Files.FileWorker;
-import MainCommand.Ticket;
-import MainCommand.TicketCreater;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -10,7 +9,7 @@ import java.util.Scanner;
 import java.util.HashMap;
 
 public class CommandReader implements CommandReaderInterface {
-    private HashMap<String, Command> commandHashMap;
+    private HashMap<String, AbstractCommand> commandHashMap;
     private CollectionManager manager;
     private Scanner scanner;
     private final boolean isRunning = true;
@@ -18,7 +17,7 @@ public class CommandReader implements CommandReaderInterface {
     private final FileWorker csvFileWorkerInterface;
     private static boolean isExit = false;
 
-    public CommandReader(CollectionManager collectionManager, FileWorker fileWorker, CommandReaderInterface commandReader) {
+    public CommandReader(CollectionManager collectionManager, FileWorker fileWorker) {
         manager = collectionManager;
         csvFileWorkerInterface = fileWorker;
         commandHashMap = new HashMap<>();
@@ -51,10 +50,12 @@ public class CommandReader implements CommandReaderInterface {
         String[] input = userCommand.trim().split(" ", 2);
         if (commandHashMap.containsKey(input[0])) {
             commandHashMap.get(input[0]).execute(input);
-        } else if (input[0].equals("")) {
+            CommandReaderInterface.addToHistory(input[0]);
+        } else if(!input[0].equals("")) {
             println("Данной команды не существует, наберите 'help' для справки");
         }
     }
+
 
     @Override
     public void start() {
@@ -68,7 +69,7 @@ public class CommandReader implements CommandReaderInterface {
                 input = fileInput.nextLine();
             }
             if (input.matches("yes")) {
-                csvFileWorkerInterface.loadInput(manager.getTickets());
+                csvFileWorkerInterface.loadInput(manager.getTicket());
             }
             println("The app is ready to work");
         } catch (NoSuchElementException e) {
@@ -89,9 +90,7 @@ public class CommandReader implements CommandReaderInterface {
         isExit = true;
     }
 
-    public HashMap<String, Command> getCommandHashMap() {
-        return commandHashMap;
-    }
+
 
     /**
      * Получить Collection Manager
@@ -105,6 +104,6 @@ public class CommandReader implements CommandReaderInterface {
 
     @Override
     public HashMap<String, AbstractCommand> getCommandMap() {
-        return null;
+        return commandHashMap;
     }
 }

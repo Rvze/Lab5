@@ -20,4 +20,13 @@ public interface InputChecker {
         }
         return true;
     }
+
+    static boolean checkFloat(String s) {
+        try {
+            Float.parseFloat(s);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

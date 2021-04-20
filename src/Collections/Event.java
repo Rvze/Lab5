@@ -1,4 +1,4 @@
-package MainCommand;
+package Collections;
 
 public class Event {
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -48,5 +48,15 @@ public class Event {
 
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", eventType=" + eventType +
+                '}';
     }
 }

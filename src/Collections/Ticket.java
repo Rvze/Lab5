@@ -1,6 +1,7 @@
-package MainCommand;
+package Collections;
 
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 public class Ticket implements Comparable<Ticket> {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -26,6 +27,9 @@ public class Ticket implements Comparable<Ticket> {
         this.event = event;
     }
 
+    public Ticket() {
+
+    }
 
 
     public long getId() {
@@ -96,12 +100,52 @@ public class Ticket implements Comparable<Ticket> {
         return event;
     }
 
+
+
+
+    public TicketType getTicketType() {
+        return type;
+    }
+
     public void setEvent(Event event) {
         this.event = event;
     }
 
     @Override
-    public int compareTo(Ticket o) {
-        return 0;
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", refundable=" + refundable +
+                ", type=" + type +
+                ", event=" + event +
+                '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return id == ticket.id && refundable == ticket.refundable && name.equals(ticket.name) && coordinates.equals(ticket.coordinates) && creationDate.equals(ticket.creationDate) && price.equals(ticket.price) && discount.equals(ticket.discount) && type == ticket.type && event.equals(ticket.event);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, coordinates, creationDate, price, discount, refundable, type, event);
+    }
+
+    @Override
+    public int compareTo(Ticket o) {
+        int result = Long.compare(id, o.id);
+        if (result != 0) {
+            return result;
+        }
+        return 1;
+    }
+
 }

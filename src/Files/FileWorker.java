@@ -1,11 +1,11 @@
 package Files;
 
-import MainCommand.Ticket;
+import Collections.Ticket;
 
 import java.util.HashSet;
 
 public interface FileWorker {
-    String getFilePath();
+    String getSaveFilePath();
 
     void inputFilePath();
 

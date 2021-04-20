@@ -1,4 +1,4 @@
-package MainCommand;
+package Collections;
 
 public class Manager {
 

@@ -1,5 +1,9 @@
 package Commands;
 
+import Collections.CollectionManager;
+import Collections.TStringShower;
+import Collections.Ticket;
+
 public class ShowCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
 
@@ -11,5 +15,10 @@ public class ShowCommand extends AbstractCommand {
     @Override
     public void execute(String[] args) {
         collectionManager.show();
+        StringBuilder sb = new StringBuilder("Элементов в коллекции: " + collectionManager.getTicket().size());
+        for(Ticket ticket : collectionManager.getTicket()){
+            sb.append(TStringShower.toStrView(ticket));
+        }
+        System.out.println(sb.toString());
     }
 }

@@ -1,5 +1,6 @@
 package Commands;
-import MainCommand.TicketCreaterInterface;
+import Collections.CollectionManager;
+import Collections.TicketCreaterInterface;
 
 public class AddCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
@@ -13,11 +14,7 @@ public class AddCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        collectionManager.add(ticketCreater);
+        collectionManager.addElement(ticketCreater.askTicket());
     }
 
-    @Override
-    public void getHelp() {
-
-    }
 }

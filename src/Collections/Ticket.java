@@ -27,9 +27,7 @@ public class Ticket implements Comparable<Ticket> {
         this.event = event;
     }
 
-    public Ticket() {
 
-    }
 
 
     public long getId() {
@@ -141,7 +139,7 @@ public class Ticket implements Comparable<Ticket> {
 
     @Override
     public int compareTo(Ticket o) {
-        int result = Long.compare(id, o.id);
+        int result = Long.compare(id, o.getId());
         if (result != 0) {
             return result;
         }

@@ -15,7 +15,6 @@ public class CommandReader implements CommandReaderInterface {
     private final boolean isRunning = true;
 
     private final FileWorker csvFileWorkerInterface;
-    private static boolean isExit = false;
 
     public CommandReader(CollectionManager collectionManager, FileWorker fileWorker) {
         manager = collectionManager;
@@ -27,7 +26,6 @@ public class CommandReader implements CommandReaderInterface {
 // scanner
 // Читаешь ввод пользователя
 // Кидаешь его в readCommand
-
 
 
     public final void println(String s) {
@@ -51,7 +49,7 @@ public class CommandReader implements CommandReaderInterface {
         if (commandHashMap.containsKey(input[0])) {
             commandHashMap.get(input[0]).execute(input);
             CommandReaderInterface.addToHistory(input[0]);
-        } else if(!input[0].equals("")) {
+        } else if (!input[0].equals("")) {
             println("Данной команды не существует, наберите 'help' для справки");
         }
     }
@@ -66,7 +64,7 @@ public class CommandReader implements CommandReaderInterface {
             String input = fileInput.nextLine();
             while (!input.equals("yes") && !input.equals("no")) {
                 println("yes/no");
-                input = fileInput.nextLine();
+                input = fileInput.nextLine().trim();
             }
             if (input.matches("yes")) {
                 csvFileWorkerInterface.loadInput(manager.getTicket());
@@ -81,15 +79,6 @@ public class CommandReader implements CommandReaderInterface {
     public void addCommand(String key, AbstractCommand command) {
         commandHashMap.put(key, command);
     }
-
-
-    /**
-     * Метод, устонавливающий флаг выхода
-     */
-    public static void quit() {
-        isExit = true;
-    }
-
 
 
     /**

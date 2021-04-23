@@ -1,6 +1,7 @@
 package Collections;
 
 import Exceptions.InvalidFieldException;
+import subsidiary.IdGenerator;
 import subsidiary.InputChecker;
 
 
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.time.*;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class TicketCreater implements TicketCreaterInterface {
@@ -34,7 +37,9 @@ public class TicketCreater implements TicketCreaterInterface {
 
     @Override
     public void setName(String name) throws InvalidFieldException {
-        if (name == null || name.equals(" ")) {
+        Pattern pattern = Pattern.compile(",");
+        Matcher matcher = pattern.matcher(name);
+        if (name == null || name.equals(" ") || matcher.find()) {
             throw new InvalidFieldException("Invalid value for Ticket name.");
         } else
             this.name = name;
@@ -115,8 +120,7 @@ public class TicketCreater implements TicketCreaterInterface {
                 return Long.parseLong(str);
             } else {
                 print("Ticket id should be long, please try again");
-                if (!isScript)
-                    askTicketId();
+
             }
 
         } catch (Exception e) {
@@ -241,7 +245,7 @@ public class TicketCreater implements TicketCreaterInterface {
         EventType.printValues();
         print("Input Ticket Event eventType: ");
         try {
-            setEventType((EventType) checkTicketEnum(inputLine()));
+            setEventType((EventType) checkEventEnum(inputLine()));
         } catch (InvalidFieldException e) {
             print("There is no in Ticket Event eventType value " + line + "\nField ");
         }
@@ -264,7 +268,6 @@ public class TicketCreater implements TicketCreaterInterface {
      */
     @Override
     public void inputFieldsFile() {
-        askTicketId();
         askName();
         askCoordinateX();
         askCoordinateY();
@@ -280,7 +283,7 @@ public class TicketCreater implements TicketCreaterInterface {
 
     @Override
     public Ticket getTicket() {
-        return new Ticket(id, name, coordinates, creationDate, price, discount, refundable, type, event);
+        return new Ticket(IdGenerator.generateId(collectionManager),name, coordinates, creationDate, price, discount, refundable, type, event);
     }
 
     @Override

@@ -16,9 +16,9 @@ public class Count_Less_Than_TypeCommand extends AbstractCommand{
     @Override
     public void execute(String[] args) {
         try {
-            collectionManager.countLessThanType((TicketType) ticketCreater.checkTicketEnum(args[1].trim()));
+            collectionManager.countLessThanType((TicketType) ticketCreater.checkTicketEnum(args[0].trim()));
         } catch (InvalidFieldException e) {
-            println("There is no enum named "+ args[1].trim());
+            println("There is no enum named "+ args[0].trim());
         }
     }
 }

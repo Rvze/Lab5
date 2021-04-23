@@ -2,6 +2,12 @@ package subsidiary;
 
 import java.util.LinkedList;
 
+/**
+ * Вспомогательный класс, реализует коллекцию LinkedList
+ * С помощью этого класса реализована команда history
+ * Имеет переопределенный метод add, который обеспечивает ограниченность в размере коллекции, при добавлении убирается крайний  элемент
+ * @param <E>
+ */
 public class LimitedQueue<E> extends LinkedList<E> {
     private int limit;
 

@@ -11,5 +11,6 @@ public class Main {
         CommandReaderInterface commandReader = new CommandReader(collectionManager, fileWorkerInterface);
         Client client = new Client(commandReader);
         client.interactiveMode();
+
     }
 }

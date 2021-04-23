@@ -77,11 +77,14 @@ public class CollectionManager {
     }
 
 
+
     public void filterGreaterThanEvent(Event eventGreater) {
+        int cnt=0;
         for (Ticket event : ticket) {
-            if (event.getId() > eventGreater.getId()) {
-                System.out.println(eventGreater);
+            if (event.getEvent().getId() > eventGreater.getId()) {
+                cnt++;
             }
+            System.out.println(cnt);
         }
     }
 
@@ -91,6 +94,10 @@ public class CollectionManager {
         }
     }
 
+
+    public HashSet<Long> getIdList() {
+        return idList;
+    }
 
     /**
      * Метод, отвечающий за удаление элементов, меншьший заданного

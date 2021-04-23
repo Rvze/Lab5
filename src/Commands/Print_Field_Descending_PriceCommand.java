@@ -15,7 +15,8 @@ public class Print_Field_Descending_PriceCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        collectionManager.printFieldDescendingPrice(price);
+        //collectionManager.printFieldDescendingPrice(price);
+        
 
     }
 }

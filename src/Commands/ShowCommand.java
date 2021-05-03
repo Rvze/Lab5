@@ -14,10 +14,10 @@ public class ShowCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        collectionManager.show();
         StringBuilder sb = new StringBuilder("Элементов в коллекции: " + collectionManager.getTicket().size());
+        sb.append("\n");
         for(Ticket ticket : collectionManager.getTicket()){
-            sb.append(TStringShower.toStrView(ticket));
+            sb.append(TStringShower.toStrView(ticket)+"\n");
         }
         System.out.println(sb.toString());
     }

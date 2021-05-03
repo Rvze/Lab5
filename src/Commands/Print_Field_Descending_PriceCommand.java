@@ -2,10 +2,11 @@ package Commands;
 
 import Collections.CollectionManager;
 import Collections.Ticket;
+import Collections.TicketCreater;
+import Collections.TicketCreaterInterface;
 
 public class Print_Field_Descending_PriceCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
-    private Ticket price;
 
 
     public Print_Field_Descending_PriceCommand(CollectionManager collectionManager) {
@@ -15,9 +16,7 @@ public class Print_Field_Descending_PriceCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        //collectionManager.printFieldDescendingPrice(price);
-        
-
+        collectionManager.printFieldDescendingPrice();
     }
 }
 

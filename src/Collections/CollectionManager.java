@@ -1,22 +1,17 @@
 package Collections;
 
-import Collections.Event;
-import Collections.Ticket;
-
-
-import Collections.TicketType;
-
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CollectionManager {
-    private static HashSet<Ticket> ticket = new HashSet<>();
+    private static HashSet<Ticket> tickets = new HashSet<>();
     private final Date creationDate;
     private final HashSet<Long> idList;
 
     public CollectionManager() {
-        ticket = new HashSet<>();
+        tickets = new HashSet<>();
         creationDate = new Date();
         idList = new HashSet<>();
     }
@@ -24,24 +19,16 @@ public class CollectionManager {
 
     public void info() {
         print("Время инициализации коллекции: " + getInitializationTime() + "\n" + "Количество элеменотов в массиве: " +
-                ticket.size() + "\n" + "Тип коллекции: " + ticket.getClass().getSimpleName());
-
-    }
-
-
-    public void show() {
-        for (Ticket value : ticket) {
-            System.out.println(value.toString());
-        }
+                tickets.size() + "\n" + "Тип коллекции: " + tickets.getClass().getSimpleName());
 
     }
 
     public boolean addElement(Ticket ticket1) {
-        if (ticket.contains(ticket1)) {
+        if (tickets.contains(ticket1)) {
             print("Element is already exist in collection");
             return false;
         } else {
-            ticket.add(ticket1);
+            tickets.add(ticket1);
             print("Element is added successfully");
             return true;
         }
@@ -52,12 +39,12 @@ public class CollectionManager {
      * @return ticket
      */
     public HashSet<Ticket> getTicket() {
-        return ticket;
+        return tickets;
     }
 
 
     public Stream<Ticket> getTicketStream() {
-        return ticket.stream();
+        return tickets.stream();
     }
 
     /**
@@ -68,7 +55,7 @@ public class CollectionManager {
 
     public void countLessThanType(TicketType ticketType) {
         int count = 0;
-        for (Ticket tic : ticket) {
+        for (Ticket tic : tickets) {
             if (tic.getTicketType().getValue() < ticketType.getValue()) {
                 count++;
             }
@@ -76,21 +63,31 @@ public class CollectionManager {
         print("Count of elements is: " + count);
     }
 
-
-
-    public void filterGreaterThanEvent(Event eventGreater) {
-        int cnt=0;
-        for (Ticket event : ticket) {
-            if (event.getEvent().getId() > eventGreater.getId()) {
+    /**
+     * Метод, выводящий значения поля event меньше заданного
+     *
+     * @param ticket
+     */
+    public void filterGreaterThanEvent(Event ticket) {
+        int cnt = 0;
+        for (Ticket tick : tickets) {
+            if (tick.getEvent().getId() > ticket.getId()) {
                 cnt++;
+                System.out.println(TStringShower.toStrView(tick));
             }
-            System.out.println(cnt);
         }
+        System.out.println("Finally found " + cnt + " elements!");
     }
 
-    public void printFieldDescendingPrice(Ticket price) {
-        for (Ticket tic : ticket) {
-            tic.compareTo(price);
+    /**
+     * Метод, выводящий значения поля price всех элементов в порядке убывания
+     */
+    public void printFieldDescendingPrice() {
+        Vector<Ticket> temp = tickets.stream().collect(Collectors.toCollection(Vector::new));
+        Collections.sort(temp);
+        Collections.reverse(temp);
+        for (Ticket tick : temp) {
+            System.out.println(tick);
         }
     }
 
@@ -108,9 +105,9 @@ public class CollectionManager {
         int count = 0;
         boolean flag = true;
         while (flag) {
-            for (Ticket t : ticket) {
+            for (Ticket t : CollectionManager.tickets) {
                 if (t.getId() < tickets.getId()) {
-                    ticket.remove(t);
+                    CollectionManager.tickets.remove(t);
                     count++;
                     flag = true;
                     break;
@@ -121,12 +118,19 @@ public class CollectionManager {
         print(count + " elements removed");
     }
 
+    /**
+     * Метод, отвечающий за обновление элемента, по id
+     *
+     * @param id
+     * @param tickets
+     * @return
+     */
     public boolean update(long id, Ticket tickets) {
-        for (Ticket t : ticket) {
+        for (Ticket t : CollectionManager.tickets) {
             if (t.getId() == id) {
                 removeById(id);
                 tickets.setId(id);
-                ticket.add(tickets);
+                CollectionManager.tickets.add(tickets);
                 print("Element is updated!");
                 return true;
             }
@@ -141,7 +145,7 @@ public class CollectionManager {
      * @param id
      */
     public void removeById(long id) {
-        if (ticket.removeIf(x -> x.getId() == id)) {
+        if (tickets.removeIf(x -> x.getId() == id)) {
             print("Element is successfully removed from collection");
         } else {
             print("Element is not removed from collection");
@@ -152,7 +156,7 @@ public class CollectionManager {
      * Метод, очищающий коллекцию
      */
     public void clear() {
-        ticket.clear();
+        tickets.clear();
         print("The collection successfully cleared");
 
     }
@@ -165,7 +169,7 @@ public class CollectionManager {
      * @return
      */
     public boolean checkId(long id) {
-        for (Ticket ticket : ticket) {
+        for (Ticket ticket : tickets) {
             if (ticket.getId() == id) {
                 return true;
             }

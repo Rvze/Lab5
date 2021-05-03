@@ -27,7 +27,9 @@ public class Ticket implements Comparable<Ticket> {
         this.event = event;
     }
 
+    public Ticket() {
 
+    }
 
 
     public long getId() {
@@ -99,8 +101,6 @@ public class Ticket implements Comparable<Ticket> {
     }
 
 
-
-
     public TicketType getTicketType() {
         return type;
     }
@@ -137,13 +137,22 @@ public class Ticket implements Comparable<Ticket> {
         return Objects.hash(id, name, coordinates, creationDate, price, discount, refundable, type, event);
     }
 
+
     @Override
     public int compareTo(Ticket o) {
-        int result = Long.compare(id, o.getId());
+        if (price - o.getPrice() > 0)
+            return 1;
+        else if (o.getPrice() - price > 0)
+            return -1;
+        else
+            return 0;
+    }
+
+    public int compareByTicket(Ticket t) {
+        int result = Long.compare(id, t.getId());
         if (result != 0) {
             return result;
         }
-        return 1;
+        return Long.compare(id, t.getId());
     }
-
 }

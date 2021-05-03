@@ -1,7 +1,6 @@
 package Commands;
 
 
-
 import Collections.CollectionManager;
 import Collections.TicketCreaterInterface;
 import subsidiary.InputChecker;
@@ -28,6 +27,7 @@ public class UpdateIdCommand extends AbstractCommand {
             collectionManager.update(id, ticketCreater.askTicket());
         } else {
             println("This id not found");
+
         }
     }
 

@@ -172,7 +172,8 @@ public class CSVFileWorker implements CSVFileWorkerInterface, FileWorker {
         try {
             scanner = new Scanner(new FileReader(getFilePath().trim()));
             String line;
-            while ((line = scanner.nextLine()) != null) {
+            while ((scanner.hasNextLine())) {
+                line=scanner.nextLine();
                 String[] lines = line.split(getSeparator());
                 if (lines.length != 11) {
                     print("You have the wrong number of fields, element will not added to the collection");

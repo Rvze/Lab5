@@ -287,9 +287,9 @@ public class TicketCreater implements TicketCreaterInterface {
     }
 
     @Override
-    public Enum checkTicketEnum(String s) throws InvalidFieldException {
+    public TicketType checkTicketEnum(String s) throws InvalidFieldException {
         for (TicketType tp : TicketType.values()) {
-            if (s.equalsIgnoreCase(tp.getUrl())) {
+            if (s.trim().equalsIgnoreCase(tp.getUrl())) {
                 return tp;
             }
         }
@@ -299,12 +299,10 @@ public class TicketCreater implements TicketCreaterInterface {
     }
 
     @Override
-    public Enum checkEventEnum(String s) throws InvalidFieldException {
+    public EventType checkEventEnum(String s) throws InvalidFieldException {
         for (EventType et : EventType.values()) {
-            if (s.equalsIgnoreCase(et.getUrl())) ;
-            {
+            if(et.getUrl().equals(s.trim().toLowerCase()))
                 return et;
-            }
         }
         throw new InvalidFieldException("There is no Event enum named " + s);
     }
@@ -314,11 +312,11 @@ public class TicketCreater implements TicketCreaterInterface {
     public void setEventId(Long eventId) {
         if (eventId == null || eventId <= 0) {
             print("Invalid value");
+            askEventId();
         } else if (event == null) {
             event = new Event();
         }
         event.setId(eventId);
-
     }
 
     @Override

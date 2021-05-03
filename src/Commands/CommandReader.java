@@ -57,22 +57,23 @@ public class CommandReader implements CommandReaderInterface {
 
     @Override
     public void start() {
+        Scanner fileInput = new Scanner(System.in);
+        String input="";
         try {
-            Scanner fileInput = new Scanner(System.in);
             println("Do you wanna start app work with csv file input?\n|yes/no|");
 
-            String input = fileInput.nextLine();
+            input = fileInput.nextLine();
             while (!input.equals("yes") && !input.equals("no")) {
                 println("yes/no");
                 input = fileInput.nextLine().trim();
             }
-            if (input.matches("yes")) {
-                csvFileWorkerInterface.loadInput(manager.getTicket());
-            }
-            println("The app is ready to work");
         } catch (NoSuchElementException e) {
             println("^D is forbidden input");
         }
+        if (input.matches("yes")) {
+            csvFileWorkerInterface.loadInput(manager.getTicket());
+        }
+        println("The app is ready to work");
     }
 
     @Override

@@ -4,6 +4,7 @@ import Collections.CollectionManager;
 import Commands.*;
 import Collections.TicketCreater;
 import Collections.TicketCreaterInterface;
+import Exceptions.OutputManager;
 
 
 import java.io.InputStreamReader;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Client {
-    private static boolean exit;
+    private static boolean isRunning = true;
     private final CommandReaderInterface commandReader;
     private HashMap<String, Command> commandHashMap;
 
@@ -27,7 +28,7 @@ public class Client {
         commandReader.addCommand("remove_by_id", new RemoveByIdCommand(manager, ticketCreater));
         commandReader.addCommand("clear", new ClearCommand(manager, ticketCreater));
         commandReader.addCommand("save", new SaveCommand(manager));
-        commandReader.addCommand("exit", new ExitCommand());
+        commandReader.addCommand("exit", new ExitCommand(this));
         commandReader.addCommand("add_if_max", new Add_If_MaxCommand(manager, ticketCreater));
         commandReader.addCommand("remove_lower", new Remove_LowerCommand(manager, ticketCreater));
         commandReader.addCommand("history", new HistoryCommand());
@@ -40,12 +41,14 @@ public class Client {
 
     public final void interactiveMode() {
         commandReader.start();
-        while (!exit)
+        while (isRunning)
             commandReader.readCommand();
-        exit();
 
     }
     public static void exit(){
-        exit = true;
+        isRunning = false;
+        System.out.println("Work of the app will be stopped");
+        System.exit(1);
     }
+
 }

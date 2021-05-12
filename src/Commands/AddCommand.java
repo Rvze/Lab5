@@ -1,6 +1,10 @@
 package Commands;
+
+import Client.Client;
 import Collections.CollectionManager;
 import Collections.TicketCreaterInterface;
+
+import java.util.NoSuchElementException;
 
 public class AddCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
@@ -14,7 +18,12 @@ public class AddCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        collectionManager.addElement(ticketCreater.askTicket());
+        try {
+            collectionManager.addElement(ticketCreater.askTicket());
+        }catch(NoSuchElementException e){
+            println("^D is forbidden input");
+            Client.exit();
+        }
     }
 
 }

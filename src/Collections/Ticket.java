@@ -1,6 +1,7 @@
 package Collections;
 
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Ticket implements Comparable<Ticket> {
@@ -13,6 +14,7 @@ public class Ticket implements Comparable<Ticket> {
     private boolean refundable;
     private TicketType type; //Поле не может быть null
     private Event event; //Поле может быть null
+    private static TicketComparator ticketComparator = new TicketComparator();
 
     public Ticket(long id, String name, Coordinates coordinates, ZonedDateTime creationDate, Float price,
                   Long discount, boolean refundable, TicketType type, Event event) {
@@ -149,10 +151,24 @@ public class Ticket implements Comparable<Ticket> {
     }
 
     public int compareByTicket(Ticket t) {
-        int result = Long.compare(id, t.getId());
-        if (result != 0) {
-            return result;
+        return (int)(id-t.getId());
+    }
+
+    public static TicketComparator getTicketComparator() {
+        return ticketComparator;
+    }
+
+    static class TicketComparator implements Comparator<Ticket> {
+        public int compare(Ticket h1, Ticket h2) {
+            if (h1.getId() == h2.getId()) {
+                return 0;
+            }
+            if (h1.getId() > h2.getId()) {
+                return 1;
+            }
+            else {
+                return -1;
+            }
         }
-        return Long.compare(id, t.getId());
     }
 }

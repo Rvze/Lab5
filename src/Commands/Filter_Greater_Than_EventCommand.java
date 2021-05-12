@@ -1,7 +1,10 @@
 package Commands;
 
+import Client.Client;
 import Collections.CollectionManager;
 import Collections.TicketCreaterInterface;
+
+import java.util.NoSuchElementException;
 
 public class Filter_Greater_Than_EventCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
@@ -15,7 +18,13 @@ public class Filter_Greater_Than_EventCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        ticketCreater.askEventId();
-        collectionManager.filterGreaterThanEvent(ticketCreater.getTicket().getEvent());
+        try {
+            ticketCreater.askEventId();
+
+            collectionManager.filterGreaterThanEvent(ticketCreater.getTicket().getEvent());
+        }catch(NoSuchElementException e){
+            println("^D is forbidden input");
+            Client.exit();
+        }
     }
 }

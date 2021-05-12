@@ -1,5 +1,6 @@
 package Commands;
 
+import Client.Client;
 import Collections.CollectionManager;
 import Files.FileWorker;
 
@@ -12,7 +13,7 @@ public class CommandReader implements CommandReaderInterface {
     private HashMap<String, AbstractCommand> commandHashMap;
     private CollectionManager manager;
     private Scanner scanner;
-    private final boolean isRunning = true;
+    private Client client;
 
     private final FileWorker csvFileWorkerInterface;
 
@@ -21,11 +22,6 @@ public class CommandReader implements CommandReaderInterface {
         csvFileWorkerInterface = fileWorker;
         commandHashMap = new HashMap<>();
     }
-
-
-// scanner
-// Читаешь ввод пользователя
-// Кидаешь его в readCommand
 
 
     public final void println(String s) {
@@ -42,7 +38,8 @@ public class CommandReader implements CommandReaderInterface {
         try {
             userCommand = commandReader.nextLine();
         } catch (NoSuchElementException e) {
-            println("You can't input this\nThe work of App will be stopped");
+            println("^D is forbidden input");
+            Client.exit();
         }
 
         String[] input = userCommand.trim().split(" ", 2);
@@ -58,7 +55,7 @@ public class CommandReader implements CommandReaderInterface {
     @Override
     public void start() {
         Scanner fileInput = new Scanner(System.in);
-        String input="";
+        String input = "";
         try {
             println("Do you wanna start app work with csv file input?\n|yes/no|");
 
@@ -69,6 +66,7 @@ public class CommandReader implements CommandReaderInterface {
             }
         } catch (NoSuchElementException e) {
             println("^D is forbidden input");
+            Client.exit();
         }
         if (input.matches("yes")) {
             csvFileWorkerInterface.loadInput(manager.getTicket());

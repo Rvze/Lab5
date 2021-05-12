@@ -1,9 +1,12 @@
 package Commands;
 
+import Client.Client;
 import Collections.CollectionManager;
 import Collections.Ticket;
 import Collections.TicketCreater;
 import Collections.TicketCreaterInterface;
+
+import java.util.NoSuchElementException;
 
 public class Print_Field_Descending_PriceCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
@@ -16,7 +19,12 @@ public class Print_Field_Descending_PriceCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        collectionManager.printFieldDescendingPrice();
+        try{
+            collectionManager.printFieldDescendingPrice();
+        }catch(NoSuchElementException e){
+            println("^D is forbidden input");
+            Client.exit();
+        }
     }
 }
 

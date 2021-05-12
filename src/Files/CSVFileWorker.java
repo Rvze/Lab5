@@ -6,6 +6,7 @@ import subsidiary.InputChecker;
 
 import java.io.*;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class CSVFileWorker implements CSVFileWorkerInterface, FileWorker {
@@ -69,7 +70,11 @@ public class CSVFileWorker implements CSVFileWorkerInterface, FileWorker {
     public void inputSaveFilePath() {
         print("Enter the path to save file");
         scanner = new Scanner(System.in);
-        saveFilePath = scanner.nextLine().trim();
+        try {
+            saveFilePath = scanner.nextLine().trim();
+        }catch(NoSuchElementException e){
+            print("jopa");
+        }
         File file = new File(saveFilePath);
         while (file.isDirectory() || !file.exists() || !file.canRead()) {
             if (!file.exists()) {
@@ -110,8 +115,10 @@ public class CSVFileWorker implements CSVFileWorkerInterface, FileWorker {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFilePath));
             for (String s : str) {
                 bufferedWriter.write(s);
-                bufferedWriter.close();
+                bufferedWriter.newLine();
             }
+            bufferedWriter.flush();
+            bufferedWriter.close();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -119,6 +126,7 @@ public class CSVFileWorker implements CSVFileWorkerInterface, FileWorker {
 
     /**
      * Парсит из массива строк в элемент коллекции
+     *
      * @param values
      * @return
      */
@@ -146,19 +154,19 @@ public class CSVFileWorker implements CSVFileWorkerInterface, FileWorker {
                 ticketCreater.setPrice(Float.parseFloat(values[3]));
             else
                 throw new InvalidFieldException("Price should be float");
-            if(InputChecker.checkLong(values[4]))
+            if (InputChecker.checkLong(values[4]))
                 ticketCreater.setDiscount(Long.parseLong(values[4]));
             else
                 throw new InvalidFieldException("Ticket discount should be long");
             ticketCreater.setRefundable(Boolean.parseBoolean(values[5]));
             ticketCreater.setType((TicketType) ticketCreater.checkTicketEnum(values[6]));
-            if(InputChecker.checkLong(values[7]))
+            if (InputChecker.checkLong(values[7]))
                 ticketCreater.setEventId(Long.parseLong(values[7]));
             ticketCreater.setEventName(values[8]);
             ticketCreater.setEventDescription(values[9]);
             ticketCreater.setEventType((EventType) ticketCreater.checkEventEnum(values[10]));
 
-        }catch (InvalidFieldException e){
+        } catch (InvalidFieldException e) {
             print(e.getMessage());
             return null;
         }
@@ -173,7 +181,7 @@ public class CSVFileWorker implements CSVFileWorkerInterface, FileWorker {
             scanner = new Scanner(new FileReader(getFilePath().trim()));
             String line;
             while ((scanner.hasNextLine())) {
-                line=scanner.nextLine();
+                line = scanner.nextLine();
                 String[] lines = line.split(getSeparator());
                 if (lines.length != 11) {
                     print("You have the wrong number of fields, element will not added to the collection");

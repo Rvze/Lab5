@@ -36,6 +36,16 @@ public class TicketCreater implements TicketCreaterInterface {
     }
 
     @Override
+    public void setTicketId(Long id) throws InvalidFieldException {
+        if (id == null || id < 0) {
+            print("Invalid value");
+            askTicketId();
+        }
+        this.id = id;
+
+    }
+
+    @Override
     public void setName(String name) throws InvalidFieldException {
         Pattern pattern = Pattern.compile(",");
         Matcher matcher = pattern.matcher(name);
@@ -102,7 +112,7 @@ public class TicketCreater implements TicketCreaterInterface {
         try {
             setName(lowerInput());
         } catch (InvalidFieldException e) {
-            print("Ticket name can't be null!");
+            print("Ticket name can't be nullF");
             if (!isScript) {
                 askName();
             }
@@ -117,7 +127,7 @@ public class TicketCreater implements TicketCreaterInterface {
             str = scanner.nextLine();
 
             if (InputChecker.checkLong(str.trim())) {
-                return Long.parseLong(str);
+                setTicketId(Long.parseLong(str));
             } else {
                 print("Ticket id should be long, please try again");
 
@@ -283,7 +293,7 @@ public class TicketCreater implements TicketCreaterInterface {
 
     @Override
     public Ticket getTicket() {
-        return new Ticket(IdGenerator.generateId(collectionManager),name, coordinates, creationDate, price, discount, refundable, type, event);
+        return new Ticket(IdGenerator.generateId(collectionManager), name, coordinates, creationDate, price, discount, refundable, type, event);
     }
 
     @Override
@@ -301,7 +311,7 @@ public class TicketCreater implements TicketCreaterInterface {
     @Override
     public EventType checkEventEnum(String s) throws InvalidFieldException {
         for (EventType et : EventType.values()) {
-            if(et.getUrl().equals(s.trim().toLowerCase()))
+            if (et.getUrl().equals(s.trim().toLowerCase()))
                 return et;
         }
         throw new InvalidFieldException("There is no Event enum named " + s);

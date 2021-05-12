@@ -1,5 +1,6 @@
 package subsidiary;
 
+import Client.Client;
 import Collections.CollectionManager;
 
 import Collections.TicketCreater;
@@ -24,6 +25,7 @@ public class ScriptReader {
     private static String filePath;
     private static Scanner scanner;
     private HashMap<String, AbstractCommand> commandMap;
+    private Client client;
 
     public ScriptReader(CollectionManager collectionManager) {
         commandMap = new HashMap<>();
@@ -42,7 +44,7 @@ public class ScriptReader {
         commandMap.put("remove_by_id", new RemoveByIdCommand(collectionManager, ticketCreater));
         commandMap.put("clear", new ClearCommand(collectionManager, ticketCreater));
         commandMap.put("save", new SaveCommand(collectionManager));
-        commandMap.put("exit", new ExitCommand());
+        commandMap.put("exit", new ExitCommand(client));
         commandMap.put("add_if_max", new Add_If_MaxCommand(collectionManager, ticketCreater));
         commandMap.put("remove_lower", new Remove_LowerCommand(collectionManager, ticketCreater));
         commandMap.put("history", new HistoryCommand());

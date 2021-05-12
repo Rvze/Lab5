@@ -10,6 +10,7 @@ public interface TStringShower {
                 "}, creationDate=" + t.getCreationDate().toString()+
                 ", price=" + t.getPrice()+
                 ", discount=" + t.getDiscount()+
+                ", refundable =" + t.isRefundable()+
                 ", type=" + t.getType()+
                 ", EventId=" + t.getEvent().getId()+
                 ", EventName=" + t.getEvent().getName()+

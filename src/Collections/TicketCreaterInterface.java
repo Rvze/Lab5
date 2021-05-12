@@ -3,6 +3,8 @@ package Collections;
 import Exceptions.InvalidFieldException;
 
 public interface TicketCreaterInterface {
+    void setTicketId(Long id) throws InvalidFieldException;
+
     void setName(String name) throws InvalidFieldException;
 
     void setCoordinateX(long x) throws InvalidFieldException;

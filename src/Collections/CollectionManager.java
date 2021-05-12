@@ -71,7 +71,7 @@ public class CollectionManager {
     public void filterGreaterThanEvent(Event ticket) {
         int cnt = 0;
         for (Ticket tick : tickets) {
-            if (tick.getEvent().getId() > ticket.getId()) {
+            if (tick.getEvent().getId() < ticket.getId()) {
                 cnt++;
                 System.out.println(TStringShower.toStrView(tick));
             }
@@ -99,14 +99,14 @@ public class CollectionManager {
     /**
      * Метод, отвечающий за удаление элементов, меншьший заданного
      *
-     * @param tickets
+     * @param ticket
      */
-    public void removeLower(Ticket tickets) {
+    public void removeLower(Ticket ticket) {
         int count = 0;
         boolean flag = true;
         while (flag) {
             for (Ticket t : CollectionManager.tickets) {
-                if (t.getId() < tickets.getId()) {
+                if (t.getId() < ticket.getId()) {
                     CollectionManager.tickets.remove(t);
                     count++;
                     flag = true;

@@ -1,13 +1,17 @@
 package Commands;
 
+import Client.Client;
 import Collections.CollectionManager;
 import Collections.Ticket;
 import Collections.TicketCreater;
 import Collections.TicketCreaterInterface;
 
+import java.util.NoSuchElementException;
+
 public class Add_If_MaxCommand extends AbstractCommand {
     private final CollectionManager collectionManager;
     private final TicketCreaterInterface ticketCreater;
+    private Client client;
 
     public Add_If_MaxCommand(CollectionManager collectionManager, TicketCreaterInterface ticketCreater) {
         super("add if max ", "добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции");
@@ -18,11 +22,16 @@ public class Add_If_MaxCommand extends AbstractCommand {
 
     @Override
     public void execute(String[] args) {
-        ticketCreater.askTicketId();
-        Ticket ticket = ticketCreater.askTicket();
-        if (ticket.compareByTicket(collectionManager.getTicketStream().max(Ticket::compareByTicket).get()) >= 0) {
-            println("Element is successfully added");
-            collectionManager.addElement(ticket);
+        try {
+            ticketCreater.askTicketId();
+
+            Ticket ticket = ticketCreater.askTicket();
+            if (ticket.compareByTicket(collectionManager.getTicketStream().max(Ticket.getTicketComparator()).get()) > 0) {
+                collectionManager.addElement(ticket);
+            }
+        }catch(NoSuchElementException e){
+            println("^D is forbidden input");
+            Client.exit();
         }
     }
 }
